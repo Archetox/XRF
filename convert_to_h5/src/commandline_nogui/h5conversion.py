@@ -147,7 +147,21 @@ def scalarcount(textfile, xno, yno):
     return scalars
 
 
-def main(textfile, countfile):
+def main():
+
+    if len(sys.argv) < 3:
+        print("Incorrect input provided. Too few file names provided.")
+        print("Script is run as follows (excluding brackets): python h5convert.py [text file name] [Vortex file name]")
+        sys.exit()
+
+    if len(sys.argv) >= 4:
+        print("Incorrect input provided. Too many file names provided.")
+        print("Script is run as follows (excluding brackets): python h5convert.py [text file name] [Vortex file name]")
+        sys.exit()
+
+    textfile = sys.argv[1]
+    countfile = sys.argv[2]
+
     # Establishing valid data format
     if validate_file(countfile) != 2048:
         print('The data in {} appears to be invalid. The number of rows should be 2048.'.format(countfile))
@@ -209,18 +223,4 @@ def main(textfile, countfile):
 
 
 if __name__ == '__main__':
-
-    if len(sys.argv) < 3:
-        print("Incorrect input provided. Too few file names provided.")
-        print("Script is run as follows (excluding brackets): python h5convert.py [text file name] [Vortex file name]")
-        sys.exit()
-
-    if len(sys.argv) >= 4:
-        print("Incorrect input provided. Too many file names provided.")
-        print("Script is run as follows (excluding brackets): python h5convert.py [text file name] [Vortex file name]")
-        sys.exit()
-
-    textfile = sys.argv[1]
-    countfile = sys.argv[2]
-
-    main(textfile, countfile)
+    main()
