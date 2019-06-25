@@ -3,6 +3,7 @@
 #
 import h5py
 import numpy as np
+import pandas as pd
 import sys
 
 
@@ -12,6 +13,20 @@ def validate_file(filename):
         for i, l in enumerate(F):
             pass
     return i + 1
+
+
+def transpose_file(filename):
+    """
+    Transposes file contents and save to tab separated file
+    :return:
+    """
+    print('    Transposing...')
+    trans_filename = filename.split('.dat')[0] + '_transposed.dat'
+    df = pd.read_csv(filename, sep='\t', header=None).T
+    df.drop(df.tail(1).index, inplace=True)
+    df.to_csv(trans_filename, sep='\t', header=False, index=False)
+    print('    Complete.')
+    return trans_filename
 
 
 # Setting up empty h5 file structure
@@ -165,8 +180,12 @@ def main():
     # Establishing valid data format
     if validate_file(countfile) != 2048:
         print('The data in {} appears to be invalid. The number of rows should be 2048.'.format(countfile))
-        print('Please reformat your data file by transposing the values.')
-        sys.exit()
+        transpose = input('Do you want to automatically transpose the data? (y/n): ')
+        if transpose.lower() == 'y' or transpose.lower() == 'yes':
+            countfile = transpose_file(countfile)
+        else:
+            print('Please reformat your data file by transposing the values.')
+            sys.exit()
 
     # Determining number of x and y steps and number of energy values
     #
