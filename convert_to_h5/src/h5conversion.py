@@ -65,14 +65,27 @@ def xyno(textfile, countfile):
                     xlist.append(xpos)  # Appends positions to temporary storage lists
                     ylist.append(ypos)
 
+    # Calculate x step size
     xstart = float(xlist[0])  # X start position
     xend = float(xlist[-1])  # X end position
-    xstep = float(xlist[1]) - float(xlist[0])  # Step size interval (assumed to be the same for y)
+    xstep = float(xlist[1]) - float(xlist[0])
+
+    # Calculate y step size
+    xy_map = list(zip(xlist, ylist))
+    xy_dict = {}
+    for xy in xy_map:
+        if xy[0] not in xy_dict.keys():
+            xy_dict[xy[0]] = [xy[1]]
+        elif xy[1] not in xy_dict[xy[0]]:
+            xy_dict[xy[0]].append(xy[1])
+    print(float(xy_dict[xlist[0]][1]))
+    print(float(xy_dict[xlist[0]][0]))
     ystart = float(ylist[0])  # Y start position
     yend = float(ylist[-1])  # Y end position
+    ystep = float(xy_dict[xlist[0]][1]) - float(xy_dict[xlist[0]][0])
 
     xno = round((xend - xstart) / xstep) + 1  # Number of steps in the x direction
-    yno = round((yend - ystart) / xstep) + 1  # Number of steps in the y direction
+    yno = round((yend - ystart) / ystep) + 1  # Number of steps in the y direction
 
     print("Number of steps in the x direction: %s" % (xno))
     print("Number of steps in the y direction: %s" % (yno))
