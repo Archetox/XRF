@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="h5conversion",
-    version="1.0.0",
+    version="1.1.0",
     author="David Kuter",
     author_email="david.kuter@gmail.com",
     description="Converts CLS data to h5 files",
